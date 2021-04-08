@@ -1,0 +1,2 @@
+class PageNotRetrieved(Exception):
+    pass
