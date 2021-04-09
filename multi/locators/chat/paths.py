@@ -1,0 +1,6 @@
+MESSAGE_BLOCKS = "//div[@class='e bu bv']"
+SENDER = "string(./div[@class='bw']//strong/text())"
+MESSAGES = "./div"
+MESSAGE_CONTENT = "./div/span/text()"
+OLDER_MESSAGES_SPAN = "//div[@id='see_older']"
+SEND_INPUT = "//input[@value='Send']"

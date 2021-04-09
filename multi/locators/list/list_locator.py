@@ -1,14 +1,15 @@
-from lxml import etree
 from multi.entities.ref import Ref
 from multi.locators.list.paths import REFS, NAV_CHAT_LINK
 from multi.exceptions.page_not_retrieved import PageNotRetrieved
+from multi.locators.base_locator import BaseLocator
 
-class ListLocator:
+class ListLocator(BaseLocator):
 
-    def get_refs(self, html_source: str) -> list:
-        tree = etree.HTML(html_source.encode())
+    def get_refs(self, html: str) -> list:
+        tree = self.get_tree_from_html(html)
 
-        if len(tree.xpath(NAV_CHAT_LINK)) == 0:
+        chat_link = tree.xpath(NAV_CHAT_LINK)
+        if not self.does_element_exist(chat_link):
             raise PageNotRetrieved
 
         html_refs = tree.xpath(REFS)

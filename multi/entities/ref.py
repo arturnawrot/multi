@@ -6,7 +6,9 @@ class Ref:
         self.number_of_new_messages = number_of_new_messages
 
     def __eq__(self, other):
-        return self.name == other.name and self.link == other.link and self.number_of_new_messages == other.number_of_new_messages
+        return self.name == other.name and \
+               self.link == other.link and \
+               self.number_of_new_messages == other.number_of_new_messages
 
     def get_name(self) -> str:
         return self.name
