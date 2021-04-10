@@ -29,5 +29,3 @@ class ListLocatorTest(BaseTest):
     def test_throws_an_exception_for_invalid_html(self):
         html = '<h1>Access Denied</h1>'
         self.assertRaises(PageNotRetrieved, self.list_locator.get_refs, html)
-
-

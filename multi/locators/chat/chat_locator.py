@@ -1,30 +1,35 @@
+from multi.entities.conversation_chunk import ConversationChunk
 from multi.entities.message import Message
 from multi.locators.base_locator import BaseLocator
-from multi.locators.chat.paths import MESSAGE_BLOCKS, SENDER, MESSAGES, MESSAGE_CONTENT, OLDER_MESSAGES_SPAN, SEND_INPUT
+from multi.locators.chat.paths import *
 from multi.exceptions.page_not_retrieved import PageNotRetrieved
 from multi.utils.date import get_local_time
 
 class ChatLocator(BaseLocator):
 
-    def get_messages(self, html: str) -> list:
+    def get_conversation_chunk(self, html: str) -> list:
         tree = self.get_tree_from_html(html)
 
         send_button = tree.xpath(SEND_INPUT)
         if not self.does_element_exist(send_button):
             raise PageNotRetrieved
 
-        blocks = tree.xpath(MESSAGE_BLOCKS)
+        older_messages_url = None
+        if self.has_older_messages(html):
+            older_messages_url = tree.xpath(OLDER_MESSAGES_URL)
+
+        rows = tree.xpath(MESSAGE_BLOCKS)
 
         messages = []
 
-        for block in blocks:
-            messages.extend(self.get_messages_from_block(block))
+        for row in rows:
+            messages.extend(self.get_messages(row))
 
-        return messages
+        return ConversationChunk(messages, get_local_time(), older_messages_url)
 
-    def get_messages_from_block(self, block) -> list:
-        sender = block.xpath(SENDER)
-        html_messages = block.xpath(MESSAGES)
+    def get_messages(self, row) -> list:
+        sender = row.xpath(SENDER)
+        html_messages = row.xpath(MESSAGES)
 
         messages = []
 
@@ -39,7 +44,7 @@ class ChatLocator(BaseLocator):
 
         return messages
 
-    def does_have_older_messages(self, html: str) -> bool:
+    def has_older_messages(self, html: str) -> bool:
         tree = self.get_tree_from_html(html)
         element = tree.xpath(OLDER_MESSAGES_SPAN)
 
