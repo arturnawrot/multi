@@ -7,8 +7,8 @@ from selenium.common.exceptions import NoSuchElementException
 
 class SeleniumClient:
 
-    def __init__(self):
-        driver = webdriver.Firefox()
+    def __init__(self, path):
+        driver = webdriver.Firefox(executable_path=path)
         self.driver = driver
 
     def set_up_screen_resolution(self, x, y):

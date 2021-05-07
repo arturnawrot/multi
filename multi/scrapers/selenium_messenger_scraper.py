@@ -1,8 +1,9 @@
 from multi.selenium.selenium_client import SeleniumClient
 from multi.scrapers.urls import MESSENGER_HOME, LOGIN_PAGE, ROOT_URL
 from multi.entities.account import Account
+from multi.entities.ref import Ref
 
-class MessengerScraper:
+class SeleniumMessengerScraper:
 
     def __init__(self, path):
         self.scraper = SeleniumClient(path)
@@ -20,9 +21,10 @@ class MessengerScraper:
     def get_buddylist(self) -> str:
         return self.get_html_from_url(MESSENGER_HOME)
 
-    # url = '/message/read/?some=parameters
-    def get_chat(self, url):
-        return self.get_html_from_url(ROOT_URL + url)
+    def get_chat(self, ref: Ref):
+        return self.get_html_from_url(
+            ref.get_full_url_to_chat()
+        )
 
     def __del__(self):
         self.scraper.close_browser()

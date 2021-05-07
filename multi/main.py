@@ -1,2 +1,4 @@
+from env import FIXTURES_DIR
+
 if __name__ == "__main__":
-    print('Hello World!')
+    print(FIXTURES_DIR)

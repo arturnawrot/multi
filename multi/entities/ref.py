@@ -1,3 +1,5 @@
+from multi.scrapers.urls import ROOT_URL
+
 class Ref:
 
     def __init__(self, name: str, link: str, number_of_new_messages: int):
@@ -18,3 +20,6 @@ class Ref:
 
     def get_number_of_new_messages(self) -> int:
         return self.number_of_new_messages
+
+    def get_full_url_to_chat(self):
+        return ROOT_URL + self.link
