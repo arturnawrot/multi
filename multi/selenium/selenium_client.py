@@ -1,9 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
-
+import time
 
 class SeleniumClient:
 
@@ -16,6 +17,17 @@ class SeleniumClient:
 
     def get_page(self, url):
         self.driver.get(url)
+
+    def get_page_and_wait_to_load(self, url, timeout=15):
+        self.get_page(url)
+
+        seconds = 0
+        while self.page_has_loaded() is False:
+            if seconds > timeout:
+                raise Exception('It took to long to load the page: ' + url)
+
+            time.sleep(1)
+            seconds =+ 1
 
     def wait_and_find_all(self, by_property, locator_name):
         return self.create_web_driver_wait().until(
@@ -69,3 +81,13 @@ class SeleniumClient:
         for cookie in cookies:
             # example_cookie = {'name': 'lang', 'value': 'en-US'}
             self.driver.add_cookie(cookie)
+
+    def page_has_loaded(self):
+        page_state = self.driver.execute_script('return document.readyState;')
+        return page_state == 'complete'
+
+    def get_cookies(self):
+        return self.driver.get_cookies()
+
+    def delete_all_cookies(self):
+        return self.driver.delete_all_cookies()
