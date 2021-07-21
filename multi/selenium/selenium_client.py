@@ -91,3 +91,6 @@ class SeleniumClient:
 
     def delete_all_cookies(self):
         return self.driver.delete_all_cookies()
+
+    def find_by_tag_name(self, tag_name: str):
+        return self.driver.find_element_by_tag_name(tag_name)

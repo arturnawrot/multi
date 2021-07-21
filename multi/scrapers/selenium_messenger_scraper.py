@@ -10,7 +10,7 @@ class SeleniumMessengerScraper:
         self.scraper = SeleniumClient(path)
 
     def get_html_from_url(self, url: str) -> str:
-        self.scraper.get_page(url)
+        self.scraper.get_page_and_wait_to_load(url)
         return self.scraper.get_html()
 
     def login_using_credentials(self, account: Account):
@@ -80,6 +80,17 @@ class SeleniumMessengerScraper:
 
     def close_browser(self):
         self.scraper.close_browser()
+
+    def send_message(self, ref: Ref, body):
+        self.scraper.get_page_and_wait_to_load(
+            ref.get_full_url_to_chat()
+        )
+
+        textarea = self.scraper.find_by_tag_name('textarea')
+        submit_button = self.scraper.find('XPATH', '//input[@value="Send"]')
+
+        textarea.send_keys(body)
+        submit_button.click()
 
     def __del__(self):
         self.close_browser()
