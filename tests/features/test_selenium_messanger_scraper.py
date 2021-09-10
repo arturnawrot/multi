@@ -20,25 +20,25 @@ class SeleniumMessangerScraperTest(BaseTest):
         self.list_locator = ListLocator()
         self.chat_locator = ChatLocator()
 
-    # def test_login_and_return_cookies_then_login_just_using_cookies(self) -> None:
-    #     account = FACEBOOK_TEST_ACCOUNTS[0]
-    #     account.set_cookies(None)
-    #     cookies = self.scraper.login(account)
-    #     self.scraper.clear_session()
-    #     account.set_cookies(cookies)
-    #     self.scraper.login(account)
-    #
-    # def test_login_using_credentials_if_cookies_dont_work(self):
-    #     account = FACEBOOK_TEST_ACCOUNTS[0]
-    #     account.set_cookies({'name': 'some_fake_cookies', 'value': 'it wont work'})
-    #     self.scraper.login(account)
+    def test_login_and_return_cookies_then_login_just_using_cookies(self) -> None:
+        account = FACEBOOK_TEST_ACCOUNTS[0]
+        account.set_cookies(None)
+        cookies = self.scraper.login(account)
+        self.scraper.clear_session()
+        account.set_cookies(cookies)
+        self.scraper.login(account)
 
-    # def test_raise_an_exception_if_neither_cookies_nor_credentials_work(self):
-    #     pass
-    #
-    # def test_raise_an_exception_if_the_website_is_broken(self):
-    #     pass
-    #
+    def test_login_using_credentials_if_cookies_dont_work(self):
+        account = FACEBOOK_TEST_ACCOUNTS[0]
+        account.set_cookies({'name': 'some_fake_cookies', 'value': 'it wont work'})
+        self.scraper.login(account)
+
+    def test_raise_an_exception_if_neither_cookies_nor_credentials_work(self):
+        pass
+
+    def test_raise_an_exception_if_the_website_is_broken(self):
+        pass
+
 
     def test_get_the_unread_refs_in_the_buddylist(self):
         account1 = FACEBOOK_TEST_ACCOUNTS[0]
@@ -69,10 +69,10 @@ class SeleniumMessangerScraperTest(BaseTest):
     #     )
     #
     #     pass
-
+    #
     #
     # def test_read_the_messages(self):
     #     pass
-    #
-    # def tearDown(self) -> None:
-    #     del self.scraper
+
+    def tearDown(self) -> None:
+        del self.scraper
