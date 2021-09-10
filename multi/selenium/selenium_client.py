@@ -94,3 +94,7 @@ class SeleniumClient:
 
     def find_by_tag_name(self, tag_name: str):
         return self.driver.find_element_by_tag_name(tag_name)
+
+    def open_new_tab(self, url: str) -> None:
+        self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't') 
+        self.get_page_and_wait_to_load(url)

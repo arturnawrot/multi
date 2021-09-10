@@ -27,11 +27,14 @@ class SeleniumMessangerScraperTest(BaseTest):
         self.scraper.clear_session()
         account.set_cookies(cookies)
         self.scraper.login(account)
+        self.scraper.close_browser()
 
     def test_login_using_credentials_if_cookies_dont_work(self):
         account = FACEBOOK_TEST_ACCOUNTS[0]
-        account.set_cookies({'name': 'some_fake_cookies', 'value': 'it wont work'})
+        account.set_cookies({'name': 'some_fake_cookies', 'value': 'it wont (should not) work'})
         self.scraper.login(account)
+        self.scraper.close_browser()
+
 
     def test_raise_an_exception_if_neither_cookies_nor_credentials_work(self):
         pass
@@ -62,6 +65,8 @@ class SeleniumMessangerScraperTest(BaseTest):
 
         if not success:
             raise Exception('Message was not received')
+        
+        self.scraper.close_browser()
 
     # def test_no_unread_messages_in_the_buddylist(self):
     #     refs = self.list_locator.get_refs(
@@ -75,4 +80,5 @@ class SeleniumMessangerScraperTest(BaseTest):
     #     pass
 
     def tearDown(self) -> None:
+        self.scraper.close_browser()
         del self.scraper

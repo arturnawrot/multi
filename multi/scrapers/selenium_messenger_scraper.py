@@ -1,5 +1,5 @@
 from multi.selenium.selenium_client import SeleniumClient
-from multi.scrapers.urls import MESSENGER_HOME, LOGIN_PAGE, ROOT_URL
+from multi.scrapers.urls import MESSENGER_HOME, LOGIN_PAGE, ROOT_URL, NEW_VERSION_URL
 from multi.entities.account import Account
 from multi.entities.ref import Ref
 import time
@@ -12,6 +12,9 @@ class SeleniumMessengerScraper:
     def get_html_from_url(self, url: str) -> str:
         self.scraper.get_page_and_wait_to_load(url)
         return self.scraper.get_html()
+
+    def switch_to_new_version(self) -> None:
+        self.scraper.get_page_and_wait_to_load(NEW_VERSION_URL)
 
     def login_using_credentials(self, account: Account):
         self.scraper.get_page_and_wait_to_load(LOGIN_PAGE)
@@ -91,6 +94,3 @@ class SeleniumMessengerScraper:
 
         textarea.send_keys(body)
         submit_button.click()
-
-    def __del__(self):
-        self.close_browser()

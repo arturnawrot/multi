@@ -10,6 +10,12 @@ class ConversationChunk:
                self.received_date == other.received_date and \
                self.url_to_previous_chunk == other.url_to_previous_chunk
 
+    def __repr__(self) -> str:
+        return self.messages + self.received_date + self.url_to_previous_chunk
+
+    def __str__(self) -> str:
+        return self.messages
+
     def get_messages(self):
         return self.messages
 
