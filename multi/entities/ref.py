@@ -12,6 +12,9 @@ class Ref:
                self.link == other.link and \
                self.number_of_new_messages == other.number_of_new_messages
 
+    def __repr__(self) -> str:
+        return f"Ref(Name: {self.get_name()}, Link: {self.get_link()}, Num. of new messages: {self.get_number_of_new_messages()})"
+
     def get_name(self) -> str:
         return self.name
 
