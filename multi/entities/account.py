@@ -24,3 +24,9 @@ class Account:
 
     def get_name(self):
         return self.name
+
+    def serialize(self):
+        return {
+            'name': self.get_email(), 
+            'password': self.get_password()
+        }

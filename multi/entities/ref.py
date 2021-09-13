@@ -1,4 +1,5 @@
 from multi.scrapers.urls import ROOT_URL
+import json
 
 class Ref:
 
@@ -26,3 +27,10 @@ class Ref:
 
     def get_full_url_to_chat(self):
         return ROOT_URL + self.link
+
+    def serialize(self):
+        return {
+            'name': self.get_name(), 
+            'link': self.get_link(),
+            'number_of_new_messages': self.get_number_of_new_messages(),
+        }
