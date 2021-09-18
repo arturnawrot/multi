@@ -8,8 +8,8 @@ import time
 
 class SeleniumClient:
 
-    def __init__(self, path):
-        driver = webdriver.Firefox(executable_path=path)
+    def __init__(self, path, options=None):
+        driver = webdriver.Firefox(executable_path=path, options=options)
         self.driver = driver
 
     def set_up_screen_resolution(self, x, y):

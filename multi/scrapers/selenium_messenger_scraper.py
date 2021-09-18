@@ -2,12 +2,16 @@ from multi.selenium.selenium_client import SeleniumClient
 from multi.scrapers.urls import MESSENGER_HOME, LOGIN_PAGE, ROOT_URL, NEW_VERSION_URL
 from multi.entities.account import Account
 from multi.entities.ref import Ref
+from selenium.webdriver.firefox.options import Options
 import time
 
 class SeleniumMessengerScraper:
 
     def __init__(self, path):
-        self.scraper = SeleniumClient(path)
+
+        options = Options()
+        options.headless = True
+        self.scraper = SeleniumClient(path, options=options)
 
     def get_html_from_url(self, url: str) -> str:
         self.scraper.get_page_and_wait_to_load(url)
