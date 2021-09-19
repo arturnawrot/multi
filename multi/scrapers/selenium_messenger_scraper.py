@@ -7,10 +7,10 @@ import time
 
 class SeleniumMessengerScraper:
 
-    def __init__(self, path):
+    def __init__(self, path, isHeadless: bool):
 
         options = Options()
-        options.headless = True
+        options.headless = isHeadless
         self.scraper = SeleniumClient(path, options=options)
 
     def get_html_from_url(self, url: str) -> str:

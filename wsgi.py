@@ -18,7 +18,7 @@ def index():
 
 def get_updates(account: Account):
     try:
-        scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH)
+        scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH, True)
         navbar_locator = NavbarLocator()
 
         scraper.login(account)
