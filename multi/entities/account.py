@@ -1,3 +1,5 @@
+import json
+
 class Account:
 
     def __init__(self, email, password, cookies=None, chat_link=None, name=None):
@@ -17,6 +19,9 @@ class Account:
         return self.cookies
 
     def set_cookies(self, cookies):
+        if(isinstance(cookies, str)):
+            cookies = json.loads(cookies)
+
         self.cookies = cookies
 
     def get_chat_link(self):

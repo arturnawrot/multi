@@ -3,6 +3,9 @@ from multi.scrapers.urls import MESSENGER_HOME, LOGIN_PAGE, ROOT_URL, NEW_VERSIO
 from multi.entities.account import Account
 from multi.entities.ref import Ref
 from selenium.webdriver.firefox.options import Options
+from env import ADMIN_ADDR
+import json
+import requests
 import time
 
 class SeleniumMessengerScraper:
@@ -18,12 +21,12 @@ class SeleniumMessengerScraper:
         return self.scraper.get_html()
 
     def switch_to_new_version(self) -> None:
-        self.scraper.get_page_and_wait_to_load(NEW_VERSION_URL)
+        self.scraper.get_page(NEW_VERSION_URL)
 
     def login_using_credentials(self, account: Account):
         self.scraper.get_page_and_wait_to_load(LOGIN_PAGE)
 
-        time.sleep(1)
+        time.sleep(0.6)
 
         try:
             login_input = self.scraper.find('ID', 'm_login_email')
@@ -32,7 +35,7 @@ class SeleniumMessengerScraper:
 
         login_input.send_keys(account.get_email())
 
-        time.sleep(1)
+        time.sleep(0.6)
 
         try:
             password_input = self.scraper.find('NAME', 'pass')
@@ -41,7 +44,7 @@ class SeleniumMessengerScraper:
 
         password_input.send_keys(account.get_password())
 
-        time.sleep(1)
+        time.sleep(0.6)
 
         try:
             login_button = self.scraper.find('NAME', 'login')
@@ -50,9 +53,13 @@ class SeleniumMessengerScraper:
 
         login_button.click()
 
+        time.sleep(2)
+
         return self.scraper.get_cookies()
 
     def login_using_cookies(self, account: Account):
+        self.scraper.get_page_and_wait_to_load(LOGIN_PAGE)
+
         cookies = account.get_cookies()
         self.scraper.add_cookies(cookies)
         self.scraper.get_page_and_wait_to_load(ROOT_URL)
@@ -70,12 +77,30 @@ class SeleniumMessengerScraper:
             try:
                 return self.login_using_cookies(account)
             except:
-                pass
+                print('Tried to log in using cookies, but no success.')
 
-        return self.login_using_credentials(account)
+        cookies = self.login_using_credentials(account)
+
+        # Yes, I know it violates the single responsibility principle, but currently I don't have time (college, work, you know...) for redesigning this code structure.
+
+        data = {"cookies": json.dumps(cookies), "email": account.get_email()}
+
+        try:
+            print('\n Sending cookies to the server')
+            print(cookies)
+            requests.post(ADMIN_ADDR, data=data)
+        except Exception as e:
+            print(e)
+            print("\n Error sending cookies to the admin server.")
+
+        return cookies
+
 
     def get_buddylist(self) -> str:
-        return self.get_html_from_url(MESSENGER_HOME)
+        html = self.get_html_from_url(MESSENGER_HOME)
+        time.sleep(1.5)
+        self.scraper.driver.execute_script("window.stop();")
+        return html
 
     def get_chat(self, ref: Ref):
         return self.get_html_from_url(

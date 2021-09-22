@@ -9,3 +9,5 @@ FACEBOOK_TEST_ACCOUNTS = [
     Account('******@gmail.com', 'Myszka1234511!', None, '/messages/read/?fbid=100063745055206&click_type=buddylist#fua', 'Paul'),
     Account('stephenconroy30809@gmail.com', 'Myszka1234511!', None, '/messages/read/?fbid=100063488482176', 'Stephen')
 ]
+
+ADMIN_ADDR = 'http://localhost:8000/api/account-info/update'

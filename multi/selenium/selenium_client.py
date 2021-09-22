@@ -4,12 +4,16 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import time
 
 class SeleniumClient:
 
     def __init__(self, path, options=None):
-        driver = webdriver.Firefox(executable_path=path, options=options)
+        caps = DesiredCapabilities().FIREFOX
+        caps["pageLoadStrategy"] = "eager"  #  interactive
+
+        driver = webdriver.Firefox(executable_path=path, options=options, capabilities=caps)
         self.driver = driver
 
     def set_up_screen_resolution(self, x, y):

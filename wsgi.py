@@ -11,6 +11,10 @@ app = Flask(__name__)
 @app.route("/", methods=['POST'])
 def index():
     account = Account(request.form['email'], request.form['password'])
+
+    if('cookies' in request.form):
+        account.set_cookies(request.form['cookies'])
+
     number_of_unread_messages = get_updates(account)
     return str(number_of_unread_messages)
 
@@ -18,7 +22,7 @@ def index():
 
 def get_updates(account: Account):
     try:
-        scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH, True)
+        scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH, False)
         navbar_locator = NavbarLocator()
 
         scraper.login(account)

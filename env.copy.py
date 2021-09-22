@@ -8,3 +8,5 @@ FACEBOOK_TEST_ACCOUNTS = [
     Account('jack@gmail.com', 'admin123'),
     Account('john@gmail.com', 'qwerty')
 ]
+
+ADMIN_ADDR = 'http://localhost:8000/api/account/update'
