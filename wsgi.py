@@ -21,8 +21,9 @@ def index():
     # return jsonify([e.serialize() for e in refs])
 
 def get_updates(account: Account):
+    scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH, True)
+
     try:
-        scraper = SeleniumMessengerScraper(SELENIUM_WEBDRIVER_PATH, True)
         navbar_locator = NavbarLocator()
 
         scraper.login(account)
@@ -32,8 +33,12 @@ def get_updates(account: Account):
         )
 
         scraper.close_browser()
-    except Exception:
+    except Exception as e:
         scraper.close_browser()
+
+        print(e)
+
+        # If for some reason it does not work then -1 must be returned as a flag for the API.
         return -1
 
     return number_of_unread_messages
