@@ -9,8 +9,4 @@ FACEBOOK_TEST_ACCOUNTS = [
     Account('john@gmail.com', 'qwerty')
 ]
 
-<<<<<<< HEAD
 ADMIN_ADDR = 'http://localhost:8000'
-=======
-ADMIN_ADDR = 'http://localhost:8000/api/account/update'
->>>>>>> 63b1dd3d93ba35b9554ed82423759d584de8a752
