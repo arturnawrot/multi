@@ -9,7 +9,7 @@ import time
 
 class SeleniumMessengerScraper:
 
-    def __init__(self, path, isHeadless: bool):
+    def __init__(self, path, isHeadless: bool = True):
 
         options = Options()
         options.headless = isHeadless
@@ -26,6 +26,7 @@ class SeleniumMessengerScraper:
         self.scraper.get_page_and_wait_to_load(LOGIN_PAGE)
 
         time.sleep(0.6)
+        self.scraper.get_page_and_wait_to_load(LOGIN_PAGE)
 
         try:
             login_input = self.scraper.find('ID', 'm_login_email')
@@ -78,6 +79,8 @@ class SeleniumMessengerScraper:
             except:
                 print('Tried to log in using cookies, but no success.')
 
+        # self.scraper.delete_all_cookies()
+        
         cookies = self.login_using_credentials(account)
 
         return cookies
